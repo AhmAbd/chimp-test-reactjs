@@ -1,0 +1,60 @@
+html,
+body,
+#root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  background-color: black;
+  color: white;
+  overflow: hidden;
+}
+
+.game-table {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.game-row {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.game-cell {
+  width: 80px;
+  height: 80px;
+}
+
+.game-cell.empty {
+}
+
+button.game-cell {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  border-radius: 5px;
+  font-family: "Courier New", Courier, monospace;
+  transition: background-color 200ms;
+}
+
+button.game-cell:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+button.game-cell:active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
