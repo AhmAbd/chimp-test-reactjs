@@ -98,45 +98,43 @@ export default function Game() {
   }
 
   return (
-    <div class="game-wrapper">
+    <div className="game-wrapper">
       <h2>
         Score: {currentLevel} &nbsp; Highscore: {store.highscore}
       </h2>
       <div className="game-table">
         {matrix.map((currentRow, i) => {
           return (
-            <div>
-              <div key={i} className="game-row">
-                {currentRow.map((num, j) => {
-                  return (
-                    <AnimatePresence key={`${i},${j}`} mode="popLayout">
-                      {num === null ? (
-                        <motion.div
-                          key={`${i},${j},empty`}
-                          className="game-cell empty"
-                        ></motion.div>
-                      ) : (
-                        <motion.button
-                          key={`${i},${j},${num}`}
-                          onMouseDown={() => handleButtonClick(i, j)}
-                          className="game-cell"
-                          layout
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.8 }}
-                          transition={{
-                            type: "spring",
-                            bounce: 0.5,
-                            duration: 0.3,
-                          }}
-                        >
-                          <span hidden={invisible}>{num}</span>
-                        </motion.button>
-                      )}
-                    </AnimatePresence>
-                  );
-                })}
-              </div>
+            <div key={i} className="game-row">
+              {currentRow.map((num, j) => {
+                return (
+                  <AnimatePresence key={`${i},${j}`} mode="popLayout">
+                    {num === null ? (
+                      <motion.div
+                        key={`${i},${j},empty`}
+                        className="game-cell empty"
+                      ></motion.div>
+                    ) : (
+                      <motion.button
+                        key={`${i},${j},${num}`}
+                        onMouseDown={() => handleButtonClick(i, j)}
+                        className="game-cell"
+                        layout
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{
+                          type: "spring",
+                          bounce: 0.5,
+                          duration: 0.3,
+                        }}
+                      >
+                        <span hidden={invisible}>{num}</span>
+                      </motion.button>
+                    )}
+                  </AnimatePresence>
+                );
+              })}
             </div>
           );
         })}
