@@ -58,10 +58,9 @@ function cloneMatrix(matrix) {
 export default function App() {
   let [matrix, setMatrix] = React.useState(createMatrix(6));
   let [currentLevel, setCurrentLevel] = React.useState(4);
-  let gameStarted = false;
-  let gameOver = false;
   let [currentNumber, setCurrentNumber] = React.useState(1);
   let [invisible, setInvisible] = React.useState(false);
+  let highscore = React.useRef(currentLevel);
 
   React.useEffect(() => {
     let clone = cloneMatrix(matrix);
@@ -76,6 +75,7 @@ export default function App() {
     setMatrix(newMatrix);
     setInvisible(false);
     setCurrentNumber(1);
+    highscore.current = Math.max(highscore.current, newLevel);
   }
 
   function handleButtonClick(i, j) {
@@ -95,49 +95,52 @@ export default function App() {
         setMatrix(clone);
       }
     } else {
-      // it will go here if it's wrong
-      gameOver = true;
       changeLevel(4);
     }
   }
 
   return (
-    <div className="game-table">
-      {matrix.map((currentRow, i) => {
-        return (
-          <div key={i} className="game-row">
-            {currentRow.map((num, j) => {
-              return (
-                <AnimatePresence key={`${i},${j}`} mode="popLayout">
-                  {num === null ? (
-                    <motion.div
-                      key={`${i},${j},empty`}
-                      className="game-cell empty"
-                    ></motion.div>
-                  ) : (
-                    <motion.button
-                      key={`${i},${j},${num}`}
-                      onClick={() => handleButtonClick(i, j)}
-                      className="game-cell"
-                      layout
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      transition={{
-                        type: "spring",
-                        bounce: 0.5,
-                        duration: 0.3,
-                      }}
-                    >
-                      <span hidden={invisible}>{num}</span>
-                    </motion.button>
-                  )}
-                </AnimatePresence>
-              );
-            })}
-          </div>
-        );
-      })}
+    <div class="game-wrapper">
+      <h2>Score: {currentLevel} &nbsp; Highscore: {highscore.current}</h2>
+      <div className="game-table">
+        {matrix.map((currentRow, i) => {
+          return (
+            <div>
+              <div key={i} className="game-row">
+                {currentRow.map((num, j) => {
+                  return (
+                    <AnimatePresence key={`${i},${j}`} mode="popLayout">
+                      {num === null ? (
+                        <motion.div
+                          key={`${i},${j},empty`}
+                          className="game-cell empty"
+                        ></motion.div>
+                      ) : (
+                        <motion.button
+                          key={`${i},${j},${num}`}
+                          onClick={() => handleButtonClick(i, j)}
+                          className="game-cell"
+                          layout
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.8 }}
+                          transition={{
+                            type: "spring",
+                            bounce: 0.5,
+                            duration: 0.3,
+                          }}
+                        >
+                          <span hidden={invisible}>{num}</span>
+                        </motion.button>
+                      )}
+                    </AnimatePresence>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
